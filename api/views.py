@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import permissions, generics, status
 from .serializers import NoteSerializer,TodoSerializer
 from .models import Note,Todo
 @api_view(['GET'])
@@ -42,14 +43,24 @@ def getRoutes(request):
 def getNotes(request):
     notes = Note.objects.all()
     serializer = NoteSerializer(notes,many=True)
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully reatrived all users",
+                             "message": "successfully reatrived all users",
+                             "data": serializer.data}, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])
 def getNote(request,pk):
     note = Note.objects.get(id=pk)
     serializer = NoteSerializer(note,many=False)
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully reatrived a note",
+                             "message": "successfully reatrived a note",
+                             "data": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(["POST"])
 def createNote(request):
@@ -58,7 +69,11 @@ def createNote(request):
         body = data['body']
     )
     serializer = NoteSerializer(note,many=False)
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully saved notes details",
+                             "message": "successfully saved the notes","data": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(["PUT"])
 def updateNote(request,pk):
@@ -67,13 +82,21 @@ def updateNote(request,pk):
     serializer = NoteSerializer(note,data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully updated notes details",
+                             "message": "successfully updated the notes","data": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(["DELETE"])
 def deleteNote(request,pk):
     note = Note.objects.get(id=pk)
     note.delete()
-    return Response('Note is deleted')
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully deleted",
+                             "message": "successfully deleted"}, status=status.HTTP_201_CREATED)
 
 
 
@@ -82,14 +105,24 @@ def deleteNote(request,pk):
 def getTodos(request):
     todos = Todo.objects.all()
     serializer = TodoSerializer(todos,many=True)
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully reatrived all notes",
+                             "message": "successfully reatrived all users",
+                             "data": serializer.data}, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET"])
 def getTodo(request,pk):
     todo = Todo.objects.get(id=pk)
     serializer = TodoSerializer(todo,many=False)
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully reatrived a todo",
+                             "message": "successfully reatrived a todo",
+                             "data": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(["POST"])
 def createTodo(request):
@@ -98,7 +131,11 @@ def createTodo(request):
         body = data['body']
     )
     serializer = TodoSerializer(todo,many=False)
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully save todos details",
+                             "message": "successfully saved the todoss","data": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(["PUT"])
 def updateTodo(request,pk):
@@ -107,10 +144,18 @@ def updateTodo(request,pk):
     serializer = TodoSerializer(todo,data=request.data)
     if serializer.is_valid():
         serializer.save()
-    return Response(serializer.data)
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully updated todos details",
+                             "message": "successfully updatedd the todoss","data": serializer.data}, status=status.HTTP_201_CREATED)
 
 @api_view(["DELETE"])
 def deleteTodo(request,pk):
     todo = Todo.objects.get(id=pk)
     todo.delete()
-    return Response('Todo is deleted')
+    return Response({"success": True, 
+                             "errors": None, 
+                             "status_code": 0,
+                             "status_message": "successfully deleted",
+                             "message": "successfully deleted"}, status=status.HTTP_201_CREATED)
